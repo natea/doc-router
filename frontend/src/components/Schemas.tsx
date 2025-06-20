@@ -54,7 +54,7 @@ const Schemas: React.FC<{ organizationId: string }> = ({ organizationId }) => {
   const handleDelete = async (schemaId: string) => {
     try {
       setIsLoading(true);
-      await deleteSchemaApi({organizationId: organizationId, schemaId});
+      await deleteSchemaApi({organizationId: organizationId, schema_id: schemaId});
       setSchemas(schemas.filter(schema => schema.schema_id !== schemaId));
     } catch (error) {
       const errorMsg = getApiErrorMsg(error) || 'Error deleting schema';

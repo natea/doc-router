@@ -63,16 +63,16 @@ export interface ListSchemasResponse {
 
 export interface GetSchemaParams {
   organizationId: string;
-  schemaId: string;
+  schema_id: string;
 }
 
 export interface UpdateSchemaParams {
   organizationId: string;
-  schemaId: string;
+  schema_id: string;
   schema: SchemaConfig;
 }
 
 export interface DeleteSchemaParams {
   organizationId: string;
-  schemaId: string;
+  schema_id: string;
 }

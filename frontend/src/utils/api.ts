@@ -393,20 +393,20 @@ export const listSchemasApi = async (params: ListSchemasParams): Promise<ListSch
 };
 
 export const getSchemaApi = async (params: GetSchemaParams): Promise<Schema> => {
-  const { organizationId, schemaId } = params;
-  const response = await api.get<Schema>(`/v0/orgs/${organizationId}/schemas/${schemaId}`);
+  const { organizationId, schema_id } = params;
+  const response = await api.get<Schema>(`/v0/orgs/${organizationId}/schemas/${schema_id}`);
   return response.data;
 };
 
 export const updateSchemaApi = async (params: UpdateSchemaParams): Promise<Schema> => {
-  const { organizationId, schemaId, schema } = params;
-  const response = await api.put<Schema>(`/v0/orgs/${organizationId}/schemas/${schemaId}`, schema);
+  const { organizationId, schema_id, schema } = params;
+  const response = await api.put<Schema>(`/v0/orgs/${organizationId}/schemas/${schema_id}`, schema);
   return response.data;
 };
 
 export const deleteSchemaApi = async (params: DeleteSchemaParams) => {
-  const { organizationId, schemaId } = params;
-  const response = await api.delete(`/v0/orgs/${organizationId}/schemas/${schemaId}`);
+  const { organizationId, schema_id } = params;
+  const response = await api.delete(`/v0/orgs/${organizationId}/schemas/${schema_id}`);
   return response.data;
 };
 

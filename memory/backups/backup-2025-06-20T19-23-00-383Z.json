@@ -1,0 +1,156 @@
+{
+  "timestamp": "2025-06-20T19:23:00.384Z",
+  "version": "1.0",
+  "entries": [
+    {
+      "id": "entry_mc5745m9_5q2hsat2d",
+      "key": "swarm-development-centralized-1750447136075/ui-developer/branches",
+      "value": "Created feature/issue-18-export branch for export functionality",
+      "type": "string",
+      "namespace": "default",
+      "tags": [],
+      "metadata": {},
+      "owner": "system",
+      "accessLevel": "shared",
+      "createdAt": "2025-06-20T19:21:20.241Z",
+      "updatedAt": "2025-06-20T19:21:20.241Z",
+      "lastAccessedAt": "2025-06-20T19:21:20.241Z",
+      "version": 1,
+      "size": 94,
+      "compressed": false,
+      "checksum": "a0c3a14937681653635f3456071840f856b2453587c8f5c85027a21844333e69",
+      "references": [],
+      "dependencies": []
+    },
+    {
+      "id": "entry_mc574obi_10cca56a3",
+      "key": "swarm-development-centralized-1750447136075/ocr-developer/initial-research",
+      "value": {
+        "branch": "feature/issue-6-tesseract-ocr",
+        "current_implementation": {
+          "provider": "AWS Textract",
+          "key_files": [
+            "/packages/analytiq_data/aws/textract.py",
+            "/packages/analytiq_data/common/ocr.py",
+            "/packages/analytiq_data/msg_handlers/ocr.py"
+          ],
+          "flow": "Document -> PDF -> AWS Textract -> MongoDB storage"
+        },
+        "implementation_plan": {
+          "1_add_tesseract": "Create tesseract.py provider module",
+          "2_create_config": "Add OCR provider configuration system",
+          "3_update_handler": "Modify msg_handlers/ocr.py to use provider config",
+          "4_write_tests": "Create comparison tests for both providers",
+          "5_documentation": "Document setup, usage, and performance"
+        }
+      },
+      "type": "object",
+      "namespace": "default",
+      "tags": [],
+      "metadata": {},
+      "owner": "system",
+      "accessLevel": "shared",
+      "createdAt": "2025-06-20T19:21:44.478Z",
+      "updatedAt": "2025-06-20T19:21:44.478Z",
+      "lastAccessedAt": "2025-06-20T19:21:44.478Z",
+      "version": 1,
+      "size": 655,
+      "compressed": false,
+      "checksum": "113ce8b90d8b00a24e3e0ed2a14133a4a0219d98c7f75efa6c935d3882d063a1",
+      "references": [],
+      "dependencies": []
+    },
+    {
+      "id": "entry_mc576avx_54qhfncba",
+      "key": "swarm-development-centralized-1750447136075/ui-developer/issue-17-progress",
+      "value": "Replaced text labels 'Extract' and 'PDF' with graphical icons using Material UI icons. Used SplitscreenIcon (rotated 90°) for Extract panel and ArticleIcon for PDF panel. Applied styling similar to Cursor's design with proper hover states and borders.",
+      "type": "string",
+      "namespace": "default",
+      "tags": [],
+      "metadata": {},
+      "owner": "system",
+      "accessLevel": "shared",
+      "createdAt": "2025-06-20T19:23:00.381Z",
+      "updatedAt": "2025-06-20T19:23:00.381Z",
+      "lastAccessedAt": "2025-06-20T19:23:00.381Z",
+      "version": 1,
+      "size": 282,
+      "compressed": false,
+      "checksum": "49a281bfb19d4700edf96a173b6e7178be4bc62d009b22bce79ed41f616f213c",
+      "references": [],
+      "dependencies": []
+    }
+  ],
+  "statistics": {
+    "overview": {
+      "totalEntries": 3,
+      "totalSize": 1031,
+      "compressedEntries": 0,
+      "compressionRatio": 1,
+      "indexSize": 150,
+      "memoryUsage": 7407064,
+      "diskUsage": 0
+    },
+    "distribution": {
+      "byNamespace": {
+        "default": {
+          "count": 3,
+          "size": 1031
+        }
+      },
+      "byType": {
+        "string": {
+          "count": 2,
+          "size": 376
+        },
+        "object": {
+          "count": 1,
+          "size": 655
+        }
+      },
+      "byOwner": {
+        "system": {
+          "count": 3,
+          "size": 1031
+        }
+      },
+      "byAccessLevel": {
+        "shared": {
+          "count": 3,
+          "size": 1031
+        }
+      }
+    },
+    "temporal": {
+      "entriesCreatedLast24h": 3,
+      "entriesUpdatedLast24h": 3,
+      "entriesAccessedLast24h": 3,
+      "oldestEntry": "2025-06-20T19:21:20.241Z",
+      "newestEntry": "2025-06-20T19:23:00.381Z"
+    },
+    "performance": {
+      "averageQueryTime": 0,
+      "averageWriteTime": 1,
+      "cacheHitRatio": 0,
+      "indexEfficiency": 0.95
+    },
+    "health": {
+      "expiredEntries": 0,
+      "orphanedReferences": 0,
+      "duplicateKeys": 0,
+      "corruptedEntries": 0,
+      "recommendedCleanup": false
+    },
+    "optimization": {
+      "suggestions": [],
+      "potentialSavings": {
+        "compression": 0,
+        "cleanup": 0,
+        "deduplication": 0
+      },
+      "indexOptimization": [
+        "Consider periodic index rebuilding for optimal performance"
+      ]
+    }
+  }
+}
