@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 import analytiq_data as ad
+from ..ocr import get_ocr_runner, OCRConfig
 
 logger = logging.getLogger(__name__)
 
@@ -29,10 +30,16 @@ async def process_ocr_msg(analytiq_client, msg, force:bool=False):
         # Update state to OCR processing
         await ad.common.doc.update_doc_state(analytiq_client, document_id, ad.common.doc.DOCUMENT_STATE_OCR_PROCESSING)
         
-        # Get the AWS client. This will give None for textract if the AWS keys are not set.
-        aws_client = ad.aws.get_aws_client(analytiq_client)
-        if aws_client.textract is None:
-            raise Exception(f"AWS textract client not created. Skipping OCR.")
+        # Get the appropriate OCR runner based on configuration
+        ocr_runner = await get_ocr_runner(analytiq_client)
+        ocr_config = OCRConfig(analytiq_client)
+        provider = await ocr_config.get_provider()
+        
+        # Check if AWS client is needed (for Textract)
+        if provider.value == "textract":
+            aws_client = ad.aws.get_aws_client(analytiq_client)
+            if aws_client.textract is None:
+                raise Exception(f"AWS textract client not created. Skipping OCR.")
 
         ocr_json = None
         if not force:
@@ -62,9 +69,9 @@ async def process_ocr_msg(analytiq_client, msg, force:bool=False):
                 await ad.common.doc.update_doc_state(analytiq_client, document_id, ad.common.doc.DOCUMENT_STATE_OCR_FAILED)
                 return
 
-            # Run OCR
-            ocr_json = await ad.aws.textract.run_textract(analytiq_client, file["blob"])
-            logger.info(f"OCR completed for {document_id}")
+            # Run OCR using configured provider
+            ocr_json = await ocr_runner(analytiq_client, file["blob"])
+            logger.info(f"OCR completed for {document_id} using {provider.value}")
 
             # Save the OCR dictionary
             ad.common.save_ocr_json(analytiq_client, document_id, ocr_json)
@@ -84,7 +91,8 @@ async def process_ocr_msg(analytiq_client, msg, force:bool=False):
         logger.error(f"Error processing OCR msg: {e}")
         
         # Update state to OCR failed
-        await ad.common.doc.update_doc_state(analytiq_client, document_id, ad.common.doc.DOCUMENT_STATE_OCR_FAILED)
+        if 'document_id' in locals():
+            await ad.common.doc.update_doc_state(analytiq_client, document_id, ad.common.doc.DOCUMENT_STATE_OCR_FAILED)
 
         # Save the message to the ocr_err queue
         await ad.queue.send_msg(analytiq_client, "ocr_err", msg=msg)
