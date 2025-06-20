@@ -41,16 +41,16 @@ export interface ListPromptsResponse {
 
 export interface GetPromptParams {
   organizationId: string;
-  promptId: string;
+  prompt_id: string;
 }
 
 export interface UpdatePromptParams {
   organizationId: string;
-  promptId: string;
+  prompt_id: string;
   prompt: PromptConfig;
 }
 
 export interface DeletePromptParams {
   organizationId: string;
-  promptId: string;
+  prompt_id: string;
 }

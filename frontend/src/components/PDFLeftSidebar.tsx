@@ -39,6 +39,7 @@ const PDFLeftSidebarContent = ({ organizationId, id, onHighlight }: Props) => {
   const [failedPrompts, setFailedPrompts] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<EditingState | null>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [promptErrors, setPromptErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,9 +111,22 @@ const PDFLeftSidebarContent = ({ organizationId, id, onHighlight }: Props) => {
           newSet.delete(promptId);
           return newSet;
         });
+        // Clear error message on success
+        setPromptErrors(prev => {
+          const newErrors = { ...prev };
+          delete newErrors[promptId];
+          return newErrors;
+        });
       } catch (error) {
         console.error('Error fetching LLM results:', error);
+        // Store error details for better user feedback
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         setFailedPrompts(prev => new Set(prev).add(promptId));
+        // Store the error message in a new state variable
+        setPromptErrors(prev => ({
+          ...prev,
+          [promptId]: errorMessage
+        }));
       } finally {
         setLoadingPrompts(prev => {
           const newSet = new Set(prev);
@@ -120,6 +134,48 @@ const PDFLeftSidebarContent = ({ organizationId, id, onHighlight }: Props) => {
           return newSet;
         });
       }
+    }
+  };
+
+  const handleRetryPrompt = async (promptId: string) => {
+    // Clear the failed state
+    setFailedPrompts(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(promptId);
+      return newSet;
+    });
+    setPromptErrors(prev => {
+      const newErrors = { ...prev };
+      delete newErrors[promptId];
+      return newErrors;
+    });
+    
+    // Retry loading the results
+    setLoadingPrompts(prev => new Set(prev).add(promptId));
+    try {
+      const results = await getLLMResultApi({
+        organizationId: organizationId,
+        documentId: id,
+        promptId: promptId,
+      });
+      setLlmResults(prev => ({
+        ...prev,
+        [promptId]: results
+      }));
+    } catch (error) {
+      console.error('Error retrying LLM results:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      setFailedPrompts(prev => new Set(prev).add(promptId));
+      setPromptErrors(prev => ({
+        ...prev,
+        [promptId]: errorMessage
+      }));
+    } finally {
+      setLoadingPrompts(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(promptId);
+        return newSet;
+      });
     }
   };
 
@@ -568,7 +624,19 @@ const PDFLeftSidebarContent = ({ organizationId, id, onHighlight }: Props) => {
         return <div className="p-4 text-sm text-gray-500">Loading...</div>;
       }
       if (failedPrompts.has(promptId)) {
-        return <div className="p-4 text-sm text-red-500">Failed to load results</div>;
+        const errorMessage = promptErrors[promptId] || 'Failed to load results';
+        return (
+          <div className="p-4">
+            <div className="text-sm text-red-500 mb-2">Failed to load results</div>
+            <div className="text-xs text-gray-600 mb-3">{errorMessage}</div>
+            <button
+              onClick={() => handleRetryPrompt(promptId)}
+              className="text-xs bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        );
       }
       return <div className="p-4 text-sm text-gray-500">No results available</div>;
     }

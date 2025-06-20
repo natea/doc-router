@@ -1,4 +1,8 @@
-import { Box, Button, Tooltip, useTheme } from '@mui/material';
+import { Box, Button, Tooltip, useTheme, IconButton } from '@mui/material';
+import ViewColumnIcon from '@mui/icons-material/ViewColumn';
+import ArticleIcon from '@mui/icons-material/Article';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import SplitscreenIcon from '@mui/icons-material/Splitscreen';
 
 interface PDFViewerControlsProps {
   showLeftPanel: boolean;
@@ -18,40 +22,38 @@ const PDFViewerControls: React.FC<PDFViewerControlsProps> = ({
   return (
     <Box sx={{ display: 'flex', gap: 1 }}>
       <Tooltip title={showLeftPanel ? "Hide Extraction Panel" : "Show Extraction Panel"}>
-        <Button 
-          variant="text"
+        <IconButton
           onClick={() => setShowLeftPanel((prev: boolean) => !prev)}
           sx={{ 
-            color: theme.palette.primary.contrastText,
+            color: showLeftPanel ? theme.palette.primary.main : theme.palette.text.secondary,
+            backgroundColor: showLeftPanel ? theme.palette.action.selected : 'transparent',
             '&:hover': {
-              backgroundColor: theme.palette.primary.light,
-              opacity: 0.5,
+              backgroundColor: showLeftPanel ? theme.palette.action.selected : theme.palette.action.hover,
             },
-            backgroundColor: showLeftPanel ? theme.palette.secondary.main : theme.palette.primary.light,
-            minWidth: 'auto',
-            padding: '6px 12px',
+            borderRadius: '4px',
+            padding: '8px',
+            border: showLeftPanel ? `1px solid ${theme.palette.divider}` : '1px solid transparent',
           }}
         >
-          Extract
-        </Button>
+          <SplitscreenIcon sx={{ fontSize: 20, transform: 'rotate(90deg)' }} />
+        </IconButton>
       </Tooltip>
       <Tooltip title={showPdfPanel ? "Hide PDF Panel" : "Show PDF Panel"}>
-        <Button 
-          variant="text"
+        <IconButton
           onClick={() => setShowPdfPanel(prev => !prev)}
           sx={{ 
-            color: theme.palette.primary.contrastText,
+            color: showPdfPanel ? theme.palette.primary.main : theme.palette.text.secondary,
+            backgroundColor: showPdfPanel ? theme.palette.action.selected : 'transparent',
             '&:hover': {
-              backgroundColor: theme.palette.primary.light,
-              opacity: 0.5,
+              backgroundColor: showPdfPanel ? theme.palette.action.selected : theme.palette.action.hover,
             },
-            backgroundColor: showPdfPanel ? theme.palette.secondary.main : theme.palette.primary.light,
-            minWidth: 'auto',
-            padding: '6px 12px',
+            borderRadius: '4px',
+            padding: '8px',
+            border: showPdfPanel ? `1px solid ${theme.palette.divider}` : '1px solid transparent',
           }}
         >
-          PDF
-        </Button>
+          <ArticleIcon sx={{ fontSize: 20 }} />
+        </IconButton>
       </Tooltip>
     </Box>
   );

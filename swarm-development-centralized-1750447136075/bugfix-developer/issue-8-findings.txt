@@ -1,0 +1,1 @@
+Found issue #8 root cause: PDFLeftSidebar component at line 571 shows 'Failed to load results' when getLLMResultApi throws an error. This happens when the API call to /v0/orgs/{organizationId}/llm/result/{documentId} fails.
