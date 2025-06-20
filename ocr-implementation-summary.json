@@ -1,0 +1,31 @@
+{
+  "issue": "#6 - Add Tesseract OCR support",
+  "branch": "feature/tesseract-ocr-issue-6",
+  "pull_request": "https://github.com/natea/doc-router/pull/2",
+  "implementation": {
+    "files_created": [
+      "packages/analytiq_data/ocr/tesseract.py",
+      "packages/analytiq_data/ocr/config.py",
+      "packages/analytiq_data/ocr/__init__.py",
+      "packages/tests/test_ocr_providers.py",
+      "docs/OCR_PROVIDERS.md",
+      "packages/requirements-ocr.txt"
+    ],
+    "files_modified": [
+      "packages/analytiq_data/__init__.py",
+      "packages/analytiq_data/msg_handlers/ocr.py"
+    ],
+    "key_features": [
+      "Tesseract OCR provider with Textract-compatible output",
+      "Dynamic provider selection via configuration",
+      "Environment variable and database configuration support",
+      "Comprehensive test suite comparing providers",
+      "Full backward compatibility"
+    ]
+  },
+  "benefits": {
+    "cost": "Free alternative to AWS Textract",
+    "performance": "Faster for simple documents",
+    "flexibility": "Works offline/on-premise"
+  }
+}
